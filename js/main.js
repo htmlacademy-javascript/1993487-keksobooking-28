@@ -1,9 +1,20 @@
 import { getData } from './api.js';
-import { renderCard } from './card.js';
+import { setActiveState, setInactiveState } from './states.js';
+import { loadMap, renderMarkers } from './map.js';
 
-getData()
-  .then((data) => {
-    console.log(data);
-    renderCard(data[1]);
+setInactiveState();
+
+loadMap()
+  .then(() => {
+    getData().then((data) => {
+      setActiveState();
+      console.log(data);
+      renderMarkers(data);
+    }).catch(() => {
+      console.log('данные не загружены');
+    });
   })
-  .catch();
+  .catch(() => {
+    console.log('карта не загружена');
+  });
+
