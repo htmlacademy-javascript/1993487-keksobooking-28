@@ -24,17 +24,13 @@ const renderPopup = (popupElement, offer) => {
     popupElement.querySelector('.popup__photos').remove();
   }
 
+  return popupElement;
 };
 
-
-const showPopup = (data) => {
+const renderCard = (data) => {
   const cardElement = cardTemplate.cloneNode(true);
-  renderPopup(cardElement, data);
-  mapContainer.append(cardElement);
-};
-
-const renderCard = (offer) => {
-  showPopup(offer);
+  return renderPopup(cardElement, data);
+  //mapContainer.append(cardElement);
 };
 
 export { renderCard };
