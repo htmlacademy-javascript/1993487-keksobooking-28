@@ -1,15 +1,18 @@
 import { getData } from './api.js';
 import { setActiveState, setInactiveState } from './states.js';
-import { loadMap, renderMarkers } from './map.js';
+import { loadMap } from './map.js';
+import { setFilters } from './filter.js';
 
 setInactiveState();
 
 loadMap()
   .then(() => {
-    getData().then((data) => {
+    getData()
+    .then((data) => {
       setActiveState();
       console.log(data);
-      renderMarkers(data);
+      //renderMarkers(data);
+      setFilters(data);
     }).catch(() => {
       console.log('данные не загружены');
     });
