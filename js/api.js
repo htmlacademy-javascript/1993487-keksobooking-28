@@ -1,4 +1,4 @@
-import { LINK_GET_DATA } from './constants.js';
+import { LINK_GET_DATA, LINK_POST_DATA } from './constants.js';
 
 const getData = () =>
   fetch(LINK_GET_DATA)
@@ -10,4 +10,11 @@ const getData = () =>
       }
     });
 
-export { getData };
+const postData = (body) =>
+  fetch(LINK_POST_DATA, {
+    method: 'post',
+    body
+  });
+
+export { getData, postData };
+
