@@ -1,6 +1,11 @@
+import { FILTER_DELAY } from './constants.js';
+import { MAX_POINTS } from './constants.js';
+
 import { renderMarkers } from './map.js';
+import { debounce } from './utils.js';
 
 const filters = document.querySelector('.map__filters');
+const featuresCheckboxes = document.querySelectorAll('.map__checkbox');
 
 const PriceRanges = {
   low: 10000,
@@ -8,10 +13,20 @@ const PriceRanges = {
 };
 
 const points = [];
-const model = {};
+const model = {
+  features: []
+};
+
+const getFeatures = () => Array.from(featuresCheckboxes)
+  .reduce((acc, item) => item.checked ? [...acc, item.value] : acc, []);
 
 const changeModel = (filter, value) => {
-  model[filter] = value;
+  if (filter === 'features') {
+    model.features.length = 0;
+    model.features.push(...getFeatures());
+  } else {
+    model[filter] = value;
+  }
   console.log('!!!! ', model);
 };
 
@@ -36,6 +51,10 @@ const getFilteredPoints = (filter, data) => {
       return data.slice().filter((item) => model[filter] !== 'any' ? item.offer.rooms === model[filter] * 1 : item);
     case 'housing-guests':
       return data.slice().filter((item) => model[filter] !== 'any' ? item.offer.guests === model[filter] * 1 : item);
+    case 'features':
+      return model.features.length
+        ? model.features.reduce((acc, item) => acc.filter((apartment) => apartment.offer.features?.includes(item)), data)
+        : data;
   }
 };
 
@@ -52,12 +71,12 @@ filters.addEventListener('change', (evt) => {
   changeModel(evt.target.name, evt.target.value);
   console.log(evt.target.name, evt.target.value);
   console.log(filterPoints());
-  renderMarkers(filterPoints());
+  renderMarkers(filterPoints().slice(0, MAX_POINTS));
 });
 
 const setFilters = (data) => {
   points.push(...data.slice());
-  renderMarkers(points);
+  renderMarkers(points.slice(0, MAX_POINTS));
 };
 
 export { setFilters };
