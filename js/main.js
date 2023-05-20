@@ -8,15 +8,15 @@ setInactiveState();
 loadMap()
   .then(() => {
     getData()
-    .then((data) => {
-      setActiveState();
-      console.log(data);
-      //renderMarkers(data);
-      setFilters(data);
-      setForm();
-    }).catch(() => {
-      console.log('данные не загружены');
-    });
+      .then((data) => {
+        setActiveState();
+        console.log(data);
+        //renderMarkers(data);
+        setFilters(data);
+        setForm();
+      }).catch(() => {
+        console.log('данные не загружены');
+      });
   })
   .catch(() => {
     console.log('карта не загружена');
