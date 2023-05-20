@@ -6,6 +6,7 @@ import {
 } from './constants.js';
 
 import { renderCard } from './card.js';
+import { getAddressСoordinates } from './form.js';
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
@@ -29,8 +30,8 @@ const renderMarkers = (points) => {
       },
     );
     marker
-    .addTo(markerGroup)
-    .bindPopup(renderCard(point));
+      .addTo(markerGroup)
+      .bindPopup(renderCard(point));
   });
 };
 
@@ -59,7 +60,12 @@ const loadMap = () => {
 
   mainPinMarker.addTo(map);
 
+  mainPinMarker.on('moveend', (evt) => {
+    getAddressСoordinates((evt.target.getLatLng()));
+  });
+
   return new Promise((resolve, reject) => {
+
     map
       .on('load', () => {
         console.log('Карта инициализирована');
