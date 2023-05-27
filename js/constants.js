@@ -1,5 +1,6 @@
 const LINK_GET_DATA = 'https://28.javascript.pages.academy/keksobooking/data';
 const LINK_POST_DATA = 'https://28.javascript.pages.academy/keksobooking';
+const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 
 const START_LAT = 35.68950;
 const START_LNG = 139.691710;
@@ -20,6 +21,14 @@ const HOUSING_DICTIONARY = {
   palace: 'Дворец'
 };
 
+const MIN_PRICE = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+
 export {
   LINK_GET_DATA,
   START_LAT,
@@ -32,5 +41,7 @@ export {
   HOUSING_DICTIONARY,
   MIN_LENGTH,
   MAX_LENGTH,
-  MAX_PRICE
+  MAX_PRICE,
+  MIN_PRICE,
+  DEFAULT_AVATAR
 };
