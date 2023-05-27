@@ -67,12 +67,12 @@ const filterPoints = () => Object.keys(model)
     return getFilteredPoints(filter, acc);
   }, points.slice());
 
-filters.addEventListener('change', (evt) => {
+filters.addEventListener('change', debounce((evt) => {
   changeModel(evt.target.name, evt.target.value);
   console.log(evt.target.name, evt.target.value);
   console.log(filterPoints());
   renderMarkers(filterPoints().slice(0, MAX_POINTS));
-});
+}, FILTER_DELAY));
 
 const setFilters = (data) => {
   points.push(...data.slice());
