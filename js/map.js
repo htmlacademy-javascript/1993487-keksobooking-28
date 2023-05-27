@@ -60,6 +60,8 @@ const loadMap = () => {
 
   mainPinMarker.addTo(map);
 
+  getAddressСoordinates({lat: START_LAT, lng: START_LNG});
+
   mainPinMarker.on('moveend', (evt) => {
     getAddressСoordinates((evt.target.getLatLng()));
   });
