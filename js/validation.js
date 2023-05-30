@@ -1,14 +1,14 @@
 import { MIN_LENGTH, MAX_LENGTH, MAX_PRICE, MIN_PRICE } from './constants.js';
 import {updateSliderStart} from './slider.js';
 
-const orderForm = document.querySelector('.ad-form');
-const titleField = document.querySelector('#title');
-const typeField = document.querySelector('#type');
-const priceField = document.querySelector('#price');
-const roomsField = document.querySelector('#room_number');
-const guestsField = document.querySelector('#capacity');
-const timeInField = document.querySelector ('#timein');
-const timeOutField = document.querySelector ('#timeout');
+const orderFormElement = document.querySelector('.ad-form');
+const titleFieldElement = document.querySelector('#title');
+const typeFieldElement = document.querySelector('#type');
+const priceFieldElement = document.querySelector('#price');
+const roomsFieldElement = document.querySelector('#room_number');
+const guestsFieldElement = document.querySelector('#capacity');
+const timeInFieldElement = document.querySelector ('#timein');
+const timeOutFieldElement = document.querySelector ('#timeout');
 
 
 const RoomsToGuests = {
@@ -18,7 +18,7 @@ const RoomsToGuests = {
   100: ['0']
 };
 
-const pristine = new Pristine(orderForm, {
+const pristine = new Pristine(orderFormElement, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
   successClass: 'ad-form__element--valid',
@@ -29,27 +29,30 @@ const pristine = new Pristine(orderForm, {
 const titleValidator = (value) => value.length >= MIN_LENGTH && value.length <= MAX_LENGTH;
 
 pristine.addValidator(
-  titleField,
+  titleFieldElement,
   titleValidator,
   `Длина строки должна быть не меньше ${MIN_LENGTH} и больше ${MAX_LENGTH} символов.`
 );
 
-const priceValidator = (value) => value >= MIN_PRICE[typeField.value] && value <= MAX_PRICE;
+const priceValidator = (value) => value >= MIN_PRICE[typeFieldElement.value] && value <= MAX_PRICE;
 
-const priceValidatorMessage = () => priceField.value > MAX_PRICE ? `Максимальная цена ${MAX_PRICE}` : `Минимальная цена ${MIN_PRICE[typeField.value]}`;
+const getPriceValidatorMessage = () =>
+  priceFieldElement.value > MAX_PRICE
+    ? `Максимальная цена ${MAX_PRICE}`
+    : `Минимальная цена ${MIN_PRICE[typeFieldElement.value]}`;
 
-typeField.addEventListener('change', (evt) => {
+typeFieldElement.addEventListener('change', (evt) => {
   updateSliderStart(MIN_PRICE[evt.target.value]);
-  pristine.validate(priceField);
+  pristine.validate(priceFieldElement);
 });
 
-pristine.addValidator(priceField, priceValidator, priceValidatorMessage);
+pristine.addValidator(priceFieldElement, priceValidator, getPriceValidatorMessage);
 
 const roomsValidator = () =>
-  RoomsToGuests[roomsField.value].includes(guestsField.value);
+  RoomsToGuests[roomsFieldElement.value].includes(guestsFieldElement.value);
 
-const roomsValidatorMessage = () => {
-  switch (roomsField.value) {
+const getRoomsValidatorMessage = () => {
+  switch (roomsFieldElement.value) {
     case '1':
       return 'Для 1 гостя';
     case '2':
@@ -61,23 +64,20 @@ const roomsValidatorMessage = () => {
   }
 };
 
-roomsField.addEventListener('change', () => {
-  pristine.validate(guestsField);
+roomsFieldElement.addEventListener('change', () => {
+  pristine.validate(guestsFieldElement);
 });
 
-pristine.addValidator(guestsField, roomsValidator, roomsValidatorMessage);
+pristine.addValidator(guestsFieldElement, roomsValidator, getRoomsValidatorMessage);
 
-timeInField.addEventListener('change', () => {
-  timeOutField.value = timeInField.value ;
+timeInFieldElement.addEventListener('change', () => {
+  timeOutFieldElement.value = timeInFieldElement.value ;
 });
 
-timeOutField.addEventListener('change', () => {
-  timeInField.value = timeOutField.value;
+timeOutFieldElement.addEventListener('change', () => {
+  timeInFieldElement.value = timeOutFieldElement.value;
 });
 
-const isValid = () => {
-  console.log('validation');
-  return pristine.validate();
-};
+const isValid = () => pristine.validate();
 
 export {isValid};
