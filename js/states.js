@@ -1,23 +1,43 @@
-const adForm = document.querySelector('.ad-form');
-const adFormFieldsets = adForm.querySelectorAll('fieldset');
+const userFormElement = document.querySelector('.ad-form');
+const userFormFieldsetElement = userFormElement.querySelectorAll('fieldset');
+const filtersFormElement = document.querySelector ('.map__filters');
+const fitersFormSelectElement = filtersFormElement.querySelectorAll('select');
 
 const setActiveState = () => {
-  adForm.classList.remove('ad-form--disabled');
+  userFormElement.classList.remove('ad-form--disabled');
 
-  adFormFieldsets.forEach((item) => {
+  userFormFieldsetElement.forEach((item) => {
     item.disabled = false;
   });
 };
 
 const setInactiveState = () => {
-  adForm.classList.add('ad-form--disabled');
+  userFormElement.classList.add('ad-form--disabled');
 
-  adFormFieldsets.forEach((element) => {
+  userFormFieldsetElement.forEach((element) => {
+    element.disabled = true;
+  });
+};
+
+const setActiveStateFilters = () => {
+  filtersFormElement.classList.remove('ad-form--disabled');
+
+  fitersFormSelectElement.forEach((element) => {
+    element.disabled = false;
+  });
+};
+
+const setInactiveStateFilters = () => {
+  filtersFormElement.classList.add('ad-form--disabled');
+
+  fitersFormSelectElement.forEach((element) => {
     element.disabled = true;
   });
 };
 
 export {
+  setActiveStateFilters,
+  setInactiveStateFilters,
   setActiveState,
   setInactiveState
 };
