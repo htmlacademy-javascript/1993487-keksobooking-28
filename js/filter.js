@@ -27,7 +27,6 @@ const changeModel = (filter, value) => {
   } else {
     model[filter] = value;
   }
-  console.log('!!!! ', model);
 };
 
 const isPriceBelongRange = (range, price) => {
@@ -59,24 +58,35 @@ const getFilteredPoints = (filter, data) => {
 };
 
 const filterPoints = () => Object.keys(model)
-  .reduce((acc, filter) => {
-    console.log('filter ',filter);
-    console.log('acc ', acc);
-    console.log(getFilteredPoints(filter, acc));
-    console.log('------------');
-    return getFilteredPoints(filter, acc);
-  }, points.slice());
+  .reduce((acc, filter) => getFilteredPoints(filter, acc), points.slice());
 
 filters.addEventListener('change', debounce((evt) => {
   changeModel(evt.target.name, evt.target.value);
-  console.log(evt.target.name, evt.target.value);
-  console.log(filterPoints());
   renderMarkers(filterPoints().slice(0, MAX_POINTS));
 }, FILTER_DELAY));
+
+const resetModel = () => {
+  Object.keys(model).forEach((item) => {
+    if(item === 'features') {
+      model[item].length = 0;
+    } else {
+      model[item] = 'any';
+    }
+  });
+};
+
+filters.addEventListener('reset', () => {
+  resetModel();
+  renderMarkers(filterPoints().slice(0, MAX_POINTS));
+});
+
+const resetFilter = () => {
+  filters.reset();
+};
 
 const setFilters = (data) => {
   points.push(...data.slice());
   renderMarkers(points.slice(0, MAX_POINTS));
 };
 
-export { setFilters };
+export { setFilters, resetFilter };
