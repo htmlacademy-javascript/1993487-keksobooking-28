@@ -1,7 +1,6 @@
 import { HOUSING_DICTIONARY } from './constants.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const mapContainer = document.querySelector('#map-canvas');
 
 const renderPopup = (popupElement, offer) => {
   popupElement.querySelector('.popup__avatar').src = offer.author.avatar;
@@ -33,7 +32,6 @@ const renderPopup = (popupElement, offer) => {
 const renderCard = (data) => {
   const cardElement = cardTemplate.cloneNode(true);
   return renderPopup(cardElement, data);
-  //mapContainer.append(cardElement);
 };
 
 export { renderCard };
