@@ -26,15 +26,15 @@ const pristine = new Pristine(orderFormElement, {
   errorTextTag: 'span',
 });
 
-const titleValidator = (value) => value.length >= MIN_LENGTH && value.length <= MAX_LENGTH;
+const validateTitle = (value) => value.length >= MIN_LENGTH && value.length <= MAX_LENGTH;
 
 pristine.addValidator(
   titleFieldElement,
-  titleValidator,
+  validateTitle,
   `Длина строки должна быть не меньше ${MIN_LENGTH} и больше ${MAX_LENGTH} символов.`
 );
 
-const priceValidator = (value) => value >= MIN_PRICE[typeFieldElement.value] && value <= MAX_PRICE;
+const validatePrice = (value) => value >= MIN_PRICE[typeFieldElement.value] && value <= MAX_PRICE;
 
 const getPriceValidatorMessage = () =>
   priceFieldElement.value > MAX_PRICE
@@ -46,9 +46,9 @@ typeFieldElement.addEventListener('change', (evt) => {
   pristine.validate(priceFieldElement);
 });
 
-pristine.addValidator(priceFieldElement, priceValidator, getPriceValidatorMessage);
+pristine.addValidator(priceFieldElement, validatePrice, getPriceValidatorMessage);
 
-const roomsValidator = () =>
+const validateRooms = () =>
   RoomsToGuests[roomsFieldElement.value].includes(guestsFieldElement.value);
 
 const getRoomsValidatorMessage = () => {
@@ -68,7 +68,7 @@ roomsFieldElement.addEventListener('change', () => {
   pristine.validate(guestsFieldElement);
 });
 
-pristine.addValidator(guestsFieldElement, roomsValidator, getRoomsValidatorMessage);
+pristine.addValidator(guestsFieldElement, validateRooms, getRoomsValidatorMessage);
 
 timeInFieldElement.addEventListener('change', () => {
   timeOutFieldElement.value = timeInFieldElement.value ;

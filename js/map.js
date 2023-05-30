@@ -3,6 +3,9 @@ import {
   START_LNG,
   MARKER_WIDTH,
   MAIN_MARKER_WIDTH,
+  TILE_LAYER,
+  COPYRIGHT,
+  ZOOM
 } from './constants.js';
 
 import { renderCard } from './card.js';
@@ -56,9 +59,6 @@ const mainPinMarker = createMainPinMarker();
 mainPinMarker.addTo(map);
 
 const loadMap = () => {
-  const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-  const ZOOM = 13;
   const cityCenter = {
     lat: START_LAT,
     lng: START_LNG,
