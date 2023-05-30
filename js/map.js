@@ -35,6 +35,26 @@ const renderMarkers = (points) => {
   });
 };
 
+const createMainPinMarker = () => {
+  const mainPinIcon = L.icon({
+    iconUrl: 'img/main-pin.svg',
+    iconSize: [MAIN_MARKER_WIDTH, MAIN_MARKER_WIDTH],
+    iconAnchor: [MAIN_MARKER_WIDTH / 2, MAIN_MARKER_WIDTH],
+  });
+  return L.marker({
+    lat: START_LAT,
+    lng: START_LNG,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  });
+};
+
+const mainPinMarker = createMainPinMarker();
+
+mainPinMarker.addTo(map);
+
 const loadMap = () => {
   const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -44,33 +64,16 @@ const loadMap = () => {
     lng: START_LNG,
   };
 
-  const createMainPinMarker = () => {
-    const mainPinIcon = L.icon({
-      iconUrl: 'img/main-pin.svg',
-      iconSize: [MAIN_MARKER_WIDTH, MAIN_MARKER_WIDTH],
-      iconAnchor: [MAIN_MARKER_WIDTH / 2, MAIN_MARKER_WIDTH],
-    });
-    return L.marker(cityCenter, {
-      draggable: true,
-      icon: mainPinIcon,
-    });
-  };
-
-  const mainPinMarker = createMainPinMarker();
-
-  mainPinMarker.addTo(map);
-
   getAddressСoordinates({lat: START_LAT, lng: START_LNG});
 
   mainPinMarker.on('moveend', (evt) => {
     getAddressСoordinates((evt.target.getLatLng()));
   });
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
 
     map
       .on('load', () => {
-        console.log('Карта инициализирована');
         resolve(true);
       })
       .setView(cityCenter, ZOOM);
@@ -81,4 +84,4 @@ const loadMap = () => {
   });
 };
 
-export { loadMap, renderMarkers };
+export { loadMap, renderMarkers, mainPinMarker };
