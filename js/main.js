@@ -4,6 +4,7 @@ import { loadMap } from './map.js';
 import { setFilters } from './filter.js';
 import { setForm } from './form.js';
 import { getAlertMessage } from './utils.js';
+import { ALERT_MESSAGE } from './constants.js';
 
 setInactiveState();
 setInactiveStateFilters();
@@ -17,6 +18,6 @@ loadMap()
         setActiveStateFilters();
         setForm();
       }).catch(() => {
-        getAlertMessage('Не удалось загрузить данные с сервера');
+        getAlertMessage(ALERT_MESSAGE);
       });
   });
